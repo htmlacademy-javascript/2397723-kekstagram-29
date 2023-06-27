@@ -2,13 +2,23 @@ function isCorrectLength (inspectedString, maxLength) {
   return inspectedString.length <= maxLength;
 }
 
-function isPolyndrome (inspectedString) {
-  const withoutSpasesLowerCase = inspectedString.toLowerCase().replaceAll(' ', '');
-  return withoutSpasesLowerCase === withoutSpasesLowerCase.split('').reverse().join('');
+function isPailndrome (inspectedString) {
+  const withoutSpacesLowerCase = inspectedString.toLowerCase().replaceAll(' ', '');
+  return withoutSpacesLowerCase === withoutSpacesLowerCase.split('').reverse().join('');
 }
 
+/**
+ * @param {string|number} string
+ * @returns {number}
+ */
 function getDigits (string) {
   const searchNumber = [];
-  string.toString().replaceAll(' ', '').split('').map((char) => (Number(char) && searchNumber.push(char)));
+  const preparedString = string.toString().replaceAll(' ', '').split('');
+  preparedString.forEach((char) => {
+    const number = Number(char);
+    if (!Number.isNaN(number)) {
+      searchNumber.push(number);
+    }
+  });
   return searchNumber.length > 0 ? Number(searchNumber.join('')) : NaN;
 }
