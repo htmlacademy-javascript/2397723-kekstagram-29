@@ -31,6 +31,5 @@ const createRandomIdFromRangeGenerator = (min, max) => {
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 const generateCommentId = createIdGenerator();
 const generatePhotoId = createIdGenerator();
-const generatePhotoUrlId = (max) => createRandomIdFromRangeGenerator(1, max);
 
-export {generateCommentId, generatePhotoId, generatePhotoUrlId, getRandomArrayElement, getRandomInteger};
+export { generateCommentId, generatePhotoId, getRandomArrayElement, getRandomInteger, createRandomIdFromRangeGenerator }
