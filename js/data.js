@@ -1,6 +1,6 @@
-import { generateCommentId, generatePhotoId, generatePhotoUrlId, getRandomArrayElement, getRandomInteger } from './utils.js';
+import { generateCommentId, generatePhotoId, getRandomArrayElement, getRandomInteger, createRandomIdFromRangeGenerator } from './utils.js';
 
-const OBJECTS_COUNT = () => 25;
+const OBJECTS_COUNT = 25;
 
 const DESCRIPTIONS = {
   firstWord: [
@@ -69,14 +69,17 @@ const createComment = () => ({
 
 const generateCommentsArray = () => Array.from({ length: getRandomInteger(0, 30) }, createComment);
 
-const createPhoto = () => ({
+const createPhoto = (photoIrlIdGenerator) => ({
   id: generatePhotoId(),
-  url: `photos/${generatePhotoUrlId(OBJECTS_COUNT)}.jpg`,
+  url: `photos/${photoIrlIdGenerator()}.jpg`,
   description: `На фото: ${getRandomArrayElement(DESCRIPTIONS.firstWord)} ${getRandomArrayElement(DESCRIPTIONS.secondWord)} ${getRandomArrayElement(DESCRIPTIONS.thirdWord)}.`,
   likes: getRandomInteger(15, 200),
   comments: generateCommentsArray()
 });
 
-const generatePhotosArray = () => Array.from({ length: OBJECTS_COUNT() }, createPhoto);
+const generatePhotosArray = () => {
+  const photoIrlIdGenerator = createRandomIdFromRangeGenerator(1, OBJECTS_COUNT);
+  return Array.from({ length: OBJECTS_COUNT }, () => createPhoto(photoIrlIdGenerator));
+};
 
-export {generatePhotosArray};
+export { generatePhotosArray };
