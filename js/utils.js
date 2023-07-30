@@ -32,4 +32,4 @@ const getRandomArrayElement = (elements) => elements[getRandomInteger(0, element
 const generateCommentId = createIdGenerator();
 const generatePhotoId = createIdGenerator();
 
-export { generateCommentId, generatePhotoId, getRandomArrayElement, getRandomInteger, createRandomIdFromRangeGenerator }
+export { generateCommentId, generatePhotoId, getRandomArrayElement, getRandomInteger, createRandomIdFromRangeGenerator };
