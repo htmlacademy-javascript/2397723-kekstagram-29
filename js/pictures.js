@@ -1,4 +1,4 @@
-import { onPictureClick } from './bigPictures.js';
+import { getBigPicture } from './bigPictures.js';
 
 const generatePictures = (array) => {
   const picturesList = document.querySelector('.pictures');
@@ -15,7 +15,7 @@ const generatePictures = (array) => {
     pictureElement.querySelector('img').alt = element.description;
     pictureFragment.appendChild(pictureElement);
 
-    pictureElement.addEventListener('click', onPictureClick(element));
+    getBigPicture(pictureElement, element);
   });
 
   picturesList.appendChild(pictureFragment);
