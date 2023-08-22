@@ -1,4 +1,4 @@
-import { getBigPicture } from './bigPictures.js';
+import { openBigPicture } from './big-pictures.js';
 
 const generatePictures = (array) => {
   const picturesList = document.querySelector('.pictures');
@@ -15,7 +15,7 @@ const generatePictures = (array) => {
     pictureElement.querySelector('img').alt = element.description;
     pictureFragment.appendChild(pictureElement);
 
-    getBigPicture(pictureElement, element);
+    openBigPicture(pictureElement, element);
   });
 
   picturesList.appendChild(pictureFragment);
