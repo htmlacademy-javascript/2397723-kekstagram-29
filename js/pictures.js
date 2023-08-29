@@ -1,20 +1,31 @@
-const generatePictures = (array) => {
-  const picturesList = document.querySelector('.pictures');
-  const pictureTemplate = document.querySelector('#picture')
-    .content
-    .querySelector('.picture');
-  const pictureFragment = document.createDocumentFragment();
+import { openBigPicture } from './big-picture.js';
 
-  array.forEach(({ url, description, likes, comments }) => {
-    const pictureElement = pictureTemplate.cloneNode(true);
-    pictureElement.querySelector('.picture__likes').textContent = likes;
-    pictureElement.querySelector('.picture__comments').textContent = comments.length;
-    pictureElement.querySelector('img').src = url;
-    pictureElement.querySelector('img').alt = description;
-    pictureFragment.appendChild(pictureElement);
+const picturesContainer = document.querySelector('.pictures');
+const pictureTemplate = document.querySelector('#picture');
+const pictureItem = pictureTemplate.content.querySelector('.picture');
+
+/**
+ * @param {object[]} pictures
+ */
+const renderPictures = (pictures) => {
+  const picturesFragment = document.createDocumentFragment();
+  pictures.forEach((picture) => {
+    const pictureElement = pictureItem.cloneNode(true);
+    pictureElement.querySelector('.picture__likes').textContent = picture.likes;
+    pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
+    const pictureImg = pictureElement.querySelector('.picture__img');
+    pictureImg.src = picture.url;
+    pictureImg.alt = picture.description;
+
+    pictureElement.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      openBigPicture(picture);
+    });
+
+    picturesFragment.appendChild(pictureElement);
   });
-
-  picturesList.appendChild(pictureFragment);
+  picturesContainer.appendChild(picturesFragment);
 };
 
-export { generatePictures };
+export { renderPictures };
+
