@@ -32,8 +32,8 @@ const onCloseBtnClick = (evt) => {
  * @param {number} currentCommentsCount
  * @param {number} commentArrayCount
  */
-const changeCommentsCounter = (currentCommentsCount, commentArrayCount) => {
-  commentsCount.textContent = `${currentCommentsCount} из ${commentArrayCount}`;
+const changeCommentsCounter = (currentCommentsCount, allCommentsCount) => {
+  commentsCount.textContent = `${currentCommentsCount} из ${allCommentsCount}`;
 };
 
 /**
