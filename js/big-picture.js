@@ -77,12 +77,12 @@ const fillModal = ({ url, description, likes }) => {
   bigPictureLikesCount.textContent = likes;
 };
 
-const closeModal = () => {
+function closeModal () {
   bigPicture.classList.add(CLASS_HIDDEN);
   document.body.classList.remove(CLASS_MODAL_OPEN);
   document.removeEventListener('keydown', onDocumentKeydown);
   closeButton.removeEventListener('click', onCloseBtnClick);
-};
+}
 
 const showModal = () => {
   bigPicture.classList.remove(CLASS_HIDDEN);
