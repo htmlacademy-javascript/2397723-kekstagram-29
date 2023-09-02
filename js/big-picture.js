@@ -15,6 +15,7 @@ const commentItem = commentTemplate.content.querySelector('.social__comment');
 const commentsCount = bigPicture.querySelector('.social__comment-count');
 const commentsLoaderButton = bigPicture.querySelector('.comments-loader');
 
+commentsLoaderButton.classList.add('hidden');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -33,7 +34,7 @@ const onCloseBtnClick = (evt) => {
  * @param {number} commentArrayCount
  */
 const changeCommentsCounter = (currentCommentsCount, allCommentsCount) => {
-  commentsCount.textContent = `${currentCommentsCount} из ${allCommentsCount}`;
+  commentsCount.textContent = `${currentCommentsCount} из ${allCommentsCount} комменратиев`;
 };
 
 /**
@@ -60,12 +61,19 @@ const renderComments = (comments) => {
   renderCommentsPart(comments.slice(0, COMMENTS_AT_ONCE));
   let currentComments = comments.slice(0, COMMENTS_AT_ONCE);
   changeCommentsCounter(currentComments.length, comments.length);
-  commentsLoaderButton.onclick = () => {
-    const newComments = comments.slice(currentComments.length, currentComments.length + COMMENTS_AT_ONCE);
-    renderCommentsPart(newComments);
-    currentComments = currentComments.concat(newComments);
-    changeCommentsCounter(currentComments.length, comments.length);
-  };
+  if (currentComments.length < comments.length) {
+    commentsLoaderButton.classList.remove('hidden');
+    commentsLoaderButton.onclick = () => {
+      const newComments = comments.slice(currentComments.length, currentComments.length + COMMENTS_AT_ONCE);
+      renderCommentsPart(newComments);
+      currentComments = currentComments.concat(newComments);
+      changeCommentsCounter(currentComments.length, comments.length);
+      if (currentComments.length === comments.length) {
+        commentsLoaderButton.classList.add('hidden');
+      }
+    };
+  }
+
 };
 
 /**
