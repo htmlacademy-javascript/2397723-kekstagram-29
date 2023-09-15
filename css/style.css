@@ -686,7 +686,6 @@ main {
   width: 450px;
 
   margin: 0 auto;
-  margin-bottom: 20px;
   padding: 5px 10px;
 
   font-family: "Open Sans", "Arial", sans-serif;
@@ -701,6 +700,7 @@ main {
   height: 100px;
 
   margin: 0 auto;
+  margin-top: 20px;
   padding: 15px 10px;
 
   font-family: "Open Sans", "Arial", sans-serif;
@@ -710,6 +710,14 @@ main {
   border-radius: 5px;
 }
 
+.has-danger .form-control {
+  background-color: #FF8484;
+}
+
+.error-text {
+  text-transform: lowercase;
+  color: red
+}
 
 /**
  * Кнопка для отправки изображения
