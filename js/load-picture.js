@@ -11,10 +11,83 @@ const scaleControlSmaller = document.querySelector('.scale__control--smaller');
 const scaleControlBigger = document.querySelector('.scale__control--bigger');
 const scaleControlValue = document.querySelector('.scale__control--value');
 const effectsPreviews = document.querySelectorAll('.effects__preview');
+const imgUploadForm = document.getElementById('upload-select-image');
+
 
 const CLASS_HIDDEN = 'hidden';
 const CLASS_MODAL_OPEN = 'modal-open';
 const SCALE_STEP = 0.25;
+const HASTAGS_AMOUNT = 5;
+
+const pristine = new Pristine(imgUploadForm, {
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'error-text'
+});
+
+/**
+ * @param {string} hashtag
+ */
+
+const checkHashtag = (hashtag) => {
+  const lowerCaseHashtag = hashtag.toLowerCase().trim();
+  const splitHashtags = lowerCaseHashtag.split(' ');
+  const reg = /^#[a-zа-яё0-9]{1,19}$/i;
+  const isNormalLength = splitHashtags.length <= HASTAGS_AMOUNT;
+  let noDublicates = true;
+  let regTest = true;
+  for (const hashtagItem of splitHashtags) {
+    if (!reg.test(hashtagItem)) {
+      regTest = false;
+    }
+    const dublicateHashtags = splitHashtags.filter((el) => el === hashtagItem);
+    if (dublicateHashtags.length > 1) {
+      noDublicates = false;
+    }
+  }
+  return { isNormalLength, noDublicates, regTest };
+};
+
+pristine.addValidator(textHashtag, (value) => {
+  if (value === '') {
+    return true;
+  }
+  const test = checkHashtag(value);
+  if (test.regTest) {
+    return true;
+  }
+  return false;
+}, 'Хэштег не соответствует шаблону', 1, false);
+
+pristine.addValidator(textHashtag, (value) => {
+  const test = checkHashtag(value);
+  if (test.isNormalLength) {
+    return true;
+  }
+  return false;
+}, 'Максимум 5 хэштегов', 2, true);
+
+pristine.addValidator(textHashtag, (value) => {
+  const test = checkHashtag(value);
+  if (test.noDublicates) {
+    return true;
+  }
+  return false;
+}, 'Хэштеги не могут повторяться', 3, true);
+
+imgUploadForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  const isValid = pristine.validate();
+  if (isValid) {
+    console.log('Можно отправлять');
+    console.log(pristine);
+    imgUploadForm.submit();
+  } else {
+    console.log('Форма невалидна');
+    console.log(pristine.getErrors());
+  }
+});
 
 // Подстановка загружаемого изображения, масштабирование
 
