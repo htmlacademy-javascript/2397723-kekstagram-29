@@ -80,12 +80,7 @@ imgUploadForm.addEventListener('submit', (evt) => {
 
   const isValid = pristine.validate();
   if (isValid) {
-    console.log('Можно отправлять');
-    console.log(pristine);
     imgUploadForm.submit();
-  } else {
-    console.log('Форма невалидна');
-    console.log(pristine.getErrors());
   }
 });
 
