@@ -17,7 +17,7 @@ const imgUploadForm = document.getElementById('upload-select-image');
 const CLASS_HIDDEN = 'hidden';
 const CLASS_MODAL_OPEN = 'modal-open';
 const SCALE_STEP = 0.25;
-const HASTAGS_AMOUNT = 5;
+const HASHTAGS_AMOUNT = 5;
 
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -33,7 +33,7 @@ const checkHashtag = (hashtag) => {
   const lowerCaseHashtag = hashtag.toLowerCase().trim();
   const splitHashtags = lowerCaseHashtag.split(' ');
   const reg = /^#[a-zа-яё0-9]{1,19}$/i;
-  const isNormalLength = splitHashtags.length <= HASTAGS_AMOUNT;
+  const isNormalLength = splitHashtags.length <= HASHTAGS_AMOUNT;
   let noDublicates = true;
   let regTest = true;
   for (const hashtagItem of splitHashtags) {
