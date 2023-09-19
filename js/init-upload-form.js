@@ -53,26 +53,17 @@ pristine.addValidator(textHashtag, (value) => {
     return true;
   }
   const test = checkHashtag(value);
-  if (test.regTest) {
-    return true;
-  }
-  return false;
+  return test.regTest;
 }, 'Хэштег не соответствует шаблону', 1, false);
 
 pristine.addValidator(textHashtag, (value) => {
   const test = checkHashtag(value);
-  if (test.isNormalLength) {
-    return true;
-  }
-  return false;
+  return test.isNormalLength;
 }, 'Максимум 5 хэштегов', 2, true);
 
 pristine.addValidator(textHashtag, (value) => {
   const test = checkHashtag(value);
-  if (test.noDublicates) {
-    return true;
-  }
-  return false;
+  return test.noDublicates;
 }, 'Хэштеги не могут повторяться', 3, true);
 
 imgUploadForm.addEventListener('submit', (evt) => {
