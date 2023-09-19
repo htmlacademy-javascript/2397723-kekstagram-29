@@ -104,18 +104,18 @@ function changeScale(currentScale) {
 const scale = () => {
   let currentScale = 1;
   changeScale(currentScale);
-  scaleControlBigger.onclick = () => {
+  scaleControlBigger.addEventListener('click', () => {
     if (currentScale < 1) {
       currentScale += SCALE_STEP;
       changeScale(currentScale);
     }
-  };
-  scaleControlSmaller.onclick = () => {
+  });
+  scaleControlSmaller.addEventListener('click', () => {
     if (currentScale > 0.25) {
       currentScale -= SCALE_STEP;
       changeScale(currentScale);
     }
-  };
+  });
 };
 
 const fillPreview = () => {
@@ -160,11 +160,11 @@ const showModal = () => {
 
 
 const initUploadForm = () => {
-  uploadInput.onchange = () => {
+  uploadInput.addEventListener('change', () => {
     showModal();
     fillPreview();
     scale();
-  };
+  });
 };
 
 export { initUploadForm };
