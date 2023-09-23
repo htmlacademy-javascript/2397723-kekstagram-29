@@ -19,6 +19,12 @@ const CLASS_MODAL_OPEN = 'modal-open';
 const SCALE_STEP = 0.25;
 const HASHTAGS_AMOUNT = 5;
 
+const validationErrors = {
+  pattern: 'Хэштег не соответствует шаблону',
+  amount: 'Максимум 5 хэштегов',
+  dublicate: 'Хэштеги не могут повторяться',
+};
+
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
@@ -54,17 +60,17 @@ pristine.addValidator(textHashtag, (value) => {
   }
   const test = checkHashtag(value);
   return test.regTest;
-}, 'Хэштег не соответствует шаблону', 1, false);
+}, validationErrors.pattern, 1, false);
 
 pristine.addValidator(textHashtag, (value) => {
   const test = checkHashtag(value);
   return test.isNormalLength;
-}, 'Максимум 5 хэштегов', 2, true);
+}, validationErrors.amount, 2, true);
 
 pristine.addValidator(textHashtag, (value) => {
   const test = checkHashtag(value);
   return test.noDublicates;
-}, 'Хэштеги не могут повторяться', 3, true);
+}, validationErrors.dublicate, 3, true);
 
 imgUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
