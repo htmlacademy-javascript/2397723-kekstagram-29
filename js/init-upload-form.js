@@ -1,17 +1,17 @@
 
 import { isEscapeKey } from './utils.js';
 
-const uploadInput = document.querySelector('.img-upload__input');
-const uploadOverlay = document.querySelector('.img-upload__overlay');
-const uploadCancel = document.querySelector('.img-upload__cancel');
-const textHashtag = document.querySelector('.text__hashtags');
-const textDescription = document.querySelector('.text__description');
-const preview = document.querySelector('.img-upload__preview').querySelector('img');
-const scaleControlSmaller = document.querySelector('.scale__control--smaller');
-const scaleControlBigger = document.querySelector('.scale__control--bigger');
-const scaleControlValue = document.querySelector('.scale__control--value');
-const effectsPreviews = document.querySelectorAll('.effects__preview');
 const imgUploadForm = document.getElementById('upload-select-image');
+const uploadInput = imgUploadForm.querySelector('.img-upload__input');
+const uploadOverlay = imgUploadForm.querySelector('.img-upload__overlay');
+const uploadCancel = imgUploadForm.querySelector('.img-upload__cancel');
+const textHashtag = imgUploadForm.querySelector('.text__hashtags');
+const textDescription = imgUploadForm.querySelector('.text__description');
+const preview = imgUploadForm.querySelector('.img-upload__preview').querySelector('img');
+const scaleControlSmaller = imgUploadForm.querySelector('.scale__control--smaller');
+const scaleControlBigger = imgUploadForm.querySelector('.scale__control--bigger');
+const scaleControlValue = imgUploadForm.querySelector('.scale__control--value');
+const effectsPreviews = imgUploadForm.querySelectorAll('.effects__preview');
 
 
 const CLASS_HIDDEN = 'hidden';
@@ -88,6 +88,7 @@ const createImageUrl = () => {
   if (file) {
     return URL.createObjectURL(file);
   }
+  return undefined;
 };
 
 /**
