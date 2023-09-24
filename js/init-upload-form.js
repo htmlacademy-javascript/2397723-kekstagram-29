@@ -13,11 +13,99 @@ const scaleControlBigger = imgUploadForm.querySelector('.scale__control--bigger'
 const scaleControlValue = imgUploadForm.querySelector('.scale__control--value');
 const effectsPreviews = imgUploadForm.querySelectorAll('.effects__preview');
 
+const effectLevelSlider = imgUploadForm.querySelector('.effect-level__slider');
+const effectLevelValue = imgUploadForm.querySelector('.effect-level__value');
+const imgUploadEffectLevel = imgUploadForm.querySelector('.img-upload__effect-level');
+const effectItems = imgUploadForm.querySelectorAll('.effects__radio');
 
 const CLASS_HIDDEN = 'hidden';
 const CLASS_MODAL_OPEN = 'modal-open';
 const SCALE_STEP = 0.25;
 const HASHTAGS_AMOUNT = 5;
+
+let currentEffect = 'none';
+imgUploadEffectLevel.classList.add(CLASS_HIDDEN);
+
+const resetEffects = () => {
+  changeEffect(0);
+  effectLevelSlider.noUiSlider.reset();
+};
+
+noUiSlider.create(effectLevelSlider, {
+  start: [0],
+  connect: 'lower',
+  range: {
+    'min': 0,
+    'max': 100
+  },
+  step: 1
+});
+
+/**
+ * @param {number} max
+ */
+
+const switchSliderMax = (max) => {
+  effectLevelSlider.noUiSlider.updateOptions({
+    range: {
+      'min': 0,
+      'max': max
+    }
+  });
+};
+
+for (const item of effectItems) {
+  item.onchange = () => {
+    currentEffect = item.value;
+    resetEffects();
+    if (item.value !== 'none') {
+      imgUploadEffectLevel.classList.remove(CLASS_HIDDEN);
+    } else {
+      imgUploadEffectLevel.classList.add(CLASS_HIDDEN);
+    }
+    switch (currentEffect) {
+      case 'phobos':
+        switchSliderMax(300);
+        break;
+      case 'heat':
+        switchSliderMax(200);
+        break;
+      default:
+        switchSliderMax(100);
+    }
+  };
+}
+
+function changeEffect(level) {
+  switch (currentEffect) {
+    case 'chrome':
+      preview.style.filter = `grayscale(${level / 100})`;
+      break;
+    case 'sepia':
+      preview.style.filter = `sepia(${level / 100})`;
+      break;
+    case 'marvin':
+      preview.style.filter = `invert(${level}%)`;
+      break;
+    case 'phobos':
+      preview.style.filter = `blur(${level / 100}px)`;
+      break;
+    case 'heat':
+      preview.style.filter = `brightness(${1 + level / 100})`;
+      break;
+    case 'none':
+      preview.style.filter = '';
+      break;
+  }
+}
+
+effectLevelSlider.noUiSlider.on('update', () => {
+  const effectLevel = effectLevelSlider.noUiSlider.get();
+  effectLevelValue.value = effectLevel;
+  changeEffect(effectLevel);
+});
+
+// Валидация
 
 const validationErrors = {
   pattern: 'Хэштег не соответствует шаблону',
@@ -147,6 +235,10 @@ function closeModal() {
   uploadCancel.removeEventListener('click', onCloseBtnClick);
   changeScale(1);
   uploadInput.value = '';
+  resetEffects();
+  currentEffect = 'none';
+  effectItems[0].checked = true;
+  imgUploadEffectLevel.classList.add(CLASS_HIDDEN);
 }
 
 const showModal = () => {
