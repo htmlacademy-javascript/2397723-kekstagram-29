@@ -18,6 +18,8 @@ const effectLevelValue = imgUploadForm.querySelector('.effect-level__value');
 const imgUploadEffectLevel = imgUploadForm.querySelector('.img-upload__effect-level');
 const effectItems = imgUploadForm.querySelectorAll('.effects__radio');
 
+const imgUploadSubmit = imgUploadForm.querySelector('.img-upload__submit');
+
 const CLASS_HIDDEN = 'hidden';
 const CLASS_MODAL_OPEN = 'modal-open';
 const SCALE_STEP = 0.25;
@@ -160,12 +162,46 @@ pristine.addValidator(textHashtag, (value) => {
   return test.noDublicates;
 }, validationErrors.dublicate, 3, true);
 
+// Отправка данных
+
+const blockSubmitButton = () => {
+  imgUploadSubmit.disabled = true;
+};
+const unblockSubmitButton = () => {
+  imgUploadSubmit.disabled = false;
+};
+
+const fetchImageData = () => {
+  const formData = new FormData(imgUploadForm);
+  try {
+    fetch('https://29.javascript.pages.academy/kekstagram',
+      {
+        method: 'POST',
+        body: formData
+      })
+      .then((response) => {
+        if (response.ok) {
+          unblockSubmitButton();
+          console.log(response.ok);
+        } else {
+          console.error(response.ok);
+        }
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 imgUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
+
   const isValid = pristine.validate();
   if (isValid) {
-    imgUploadForm.submit();
+    // imgUploadForm.submit();
+    blockSubmitButton();
+
+    fetchImageData();
   }
 });
 
