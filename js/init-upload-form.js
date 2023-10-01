@@ -294,7 +294,7 @@ const createImageUrl = () => {
 };
 
 /**
- * @param {number} currentScale
+ * @param {number} scaleValue
  */
 function changeScale(scaleValue) {
   scaleControlValue.value = `${scaleValue * 100}%`;
