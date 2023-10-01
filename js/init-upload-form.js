@@ -296,31 +296,26 @@ const createImageUrl = () => {
 /**
  * @param {number} currentScale
  */
-function changeScale(currentScale) {
-  scaleControlValue.value = `${currentScale * 100}%`;
-  preview.style.transform = `scale(${currentScale})`;
+function changeScale(scaleValue) {
+  scaleControlValue.value = `${scaleValue * 100}%`;
+  preview.style.transform = `scale(${scaleValue})`;
 }
 
-const scale = () => {
-  let currentScale = 1;
-  // changeScale(currentScale);
-  // console.log(currentScale)
-  scaleControlBigger.addEventListener('click', () => {
-    if (currentScale < 1) {
-      currentScale += SCALE_STEP;
-      changeScale(currentScale);
-      // console.log('+ ', currentScale)
-    }
-  });
-  scaleControlSmaller.addEventListener('click', () => {
-    if (currentScale > 0.25) {
-      currentScale -= SCALE_STEP;
-      changeScale(currentScale);
-      console.log('- ', currentScale)
-    }
-  });
-  console.log('main ', currentScale)
-};
+let currentScale = 1;
+
+function plusScale() {
+  if (currentScale < 1) {
+    currentScale += SCALE_STEP;
+    changeScale(currentScale);
+  }
+}
+
+function minusScale() {
+  if (currentScale > 0.25) {
+    currentScale -= SCALE_STEP;
+    changeScale(currentScale);
+  }
+}
 
 const fillPreview = () => {
   const imageUrl = createImageUrl();
@@ -354,6 +349,7 @@ function closeModal() {
   changeScale(1);
   uploadInput.value = '';
   currentEffect = 'none';
+  currentScale = 1;
   resetEffects();
   effectItems[0].checked = true;
   textHashtag.value = '';
@@ -366,6 +362,8 @@ const showModal = () => {
   document.body.classList.add(CLASS_MODAL_OPEN);
   document.addEventListener('keydown', onDocumentKeydown);
   uploadCancel.addEventListener('click', onCloseBtnClick);
+  scaleControlBigger.addEventListener('click', plusScale);
+  scaleControlSmaller.addEventListener('click', minusScale);
 };
 
 
@@ -373,7 +371,6 @@ const initUploadForm = () => {
   uploadInput.addEventListener('change', () => {
     showModal();
     fillPreview();
-    scale();
   });
 };
 
