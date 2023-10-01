@@ -1,5 +1,5 @@
 import { renderPictures } from './pictures.js';
-import { initUploadForm } from './init-upload-form.js';
+import { initUploadForm } from './upload-form.js';
 
 const ALERT_SHOW_TIME = 5000;
 
