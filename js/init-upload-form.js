@@ -221,10 +221,9 @@ const onErrorButtonClick = () => {
 
 const openSuccess = () => {
   document.body.appendChild(successMessage);
-  document.addEventListener('keydown', onSuccessKeydown);
   successMessage.addEventListener('click', onSuccessBlur);
   successButton.addEventListener('click', onSuccessButtonClick);
-  document.removeEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('keydown', onSuccessKeydown);
 };
 
 
@@ -237,17 +236,11 @@ const openError = () => {
 };
 
 function closeSuccess() {
-  document.removeEventListener('keydown', onSuccessKeydown);
   successMessage.removeEventListener('click', onSuccessBlur);
   successButton.removeEventListener('click', onSuccessButtonClick);
-  document.addEventListener('keydown', onDocumentKeydown);
+  document.removeEventListener('click', onSuccessKeydown);
   document.body.removeChild(successMessage);
-  currentEffect = 'none';
-  resetEffects();
-  effectItems[0].checked = true;
-  imgUploadEffectLevel.classList.add(CLASS_HIDDEN);
-  textHashtag.value = '';
-  textDescription.value = '';
+  closeModal();
 }
 
 function closeError() {
@@ -271,10 +264,12 @@ const fetchImageData = () => {
           unblockSubmitButton();
           openSuccess();
         } else {
+          unblockSubmitButton();
           openError();
         }
       });
   } catch (error) {
+    unblockSubmitButton();
     openError();
   }
 };
@@ -357,6 +352,8 @@ function closeModal() {
   resetEffects();
   currentEffect = 'none';
   effectItems[0].checked = true;
+  textHashtag.value = '';
+  textDescription.value = '';
   imgUploadEffectLevel.classList.add(CLASS_HIDDEN);
 }
 
