@@ -136,7 +136,6 @@ const pristine = new Pristine(imgUploadForm, {
 /**
  * @param {string} hashtag
  */
-
 const checkHashtag = (hashtag) => {
   const lowerCaseHashtag = hashtag.toLowerCase().trim();
   const splitHashtags = lowerCaseHashtag.split(' ');
@@ -223,6 +222,7 @@ const openSuccess = () => {
   document.body.appendChild(successMessage);
   successMessage.addEventListener('click', onSuccessBlur);
   successButton.addEventListener('click', onSuccessButtonClick);
+  document.removeEventListener('keydown', onDocumentKeydown);
   document.addEventListener('keydown', onSuccessKeydown);
 };
 
@@ -303,19 +303,23 @@ function changeScale(currentScale) {
 
 const scale = () => {
   let currentScale = 1;
-  changeScale(currentScale);
+  // changeScale(currentScale);
+  // console.log(currentScale)
   scaleControlBigger.addEventListener('click', () => {
     if (currentScale < 1) {
       currentScale += SCALE_STEP;
       changeScale(currentScale);
+      // console.log('+ ', currentScale)
     }
   });
   scaleControlSmaller.addEventListener('click', () => {
     if (currentScale > 0.25) {
       currentScale -= SCALE_STEP;
       changeScale(currentScale);
+      console.log('- ', currentScale)
     }
   });
+  console.log('main ', currentScale)
 };
 
 const fillPreview = () => {
@@ -328,7 +332,7 @@ const fillPreview = () => {
 
 // Открытие-закрытие модалки
 
-function onDocumentKeydown (evt) {
+function onDocumentKeydown(evt) {
   if (document.activeElement !== textHashtag && document.activeElement !== textDescription) {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
@@ -349,8 +353,8 @@ function closeModal() {
   uploadCancel.removeEventListener('click', onCloseBtnClick);
   changeScale(1);
   uploadInput.value = '';
-  resetEffects();
   currentEffect = 'none';
+  resetEffects();
   effectItems[0].checked = true;
   textHashtag.value = '';
   textDescription.value = '';
