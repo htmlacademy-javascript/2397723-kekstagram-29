@@ -1,4 +1,3 @@
-
 import { isEscapeKey } from './utils.js';
 
 const imgUploadForm = document.getElementById('upload-select-image');
@@ -68,28 +67,9 @@ const switchSliderOpt = (start, min, max, step) => {
   });
 };
 
-for (const item of effectItems) {
-  item.onchange = () => {
-    currentEffect = item.value;
-    resetEffects();
-    if (item.value !== 'none') {
-      imgUploadEffectLevel.classList.remove(CLASS_HIDDEN);
-    } else {
-      imgUploadEffectLevel.classList.add(CLASS_HIDDEN);
-    }
-    switch (currentEffect) {
-      case 'phobos':
-        switchSliderOpt(3, 0, 3, 0.1);
-        break;
-      case 'heat':
-        switchSliderOpt(3, 1, 3, 0.1);
-        break;
-      default:
-        switchSliderOpt(100, 0, 100, 1);
-    }
-  };
-}
-
+/**
+ * @param {number} level
+ */
 function changeEffect(level) {
   switch (currentEffect) {
     case 'chrome':
@@ -368,6 +348,29 @@ const showModal = () => {
 
 
 const initUploadForm = () => {
+
+  for (const item of effectItems) {
+    item.addEventListener('change', () => {
+      currentEffect = item.value;
+      resetEffects();
+      if (item.value !== 'none') {
+        imgUploadEffectLevel.classList.remove(CLASS_HIDDEN);
+      } else {
+        imgUploadEffectLevel.classList.add(CLASS_HIDDEN);
+      }
+      switch (currentEffect) {
+        case 'phobos':
+          switchSliderOpt(3, 0, 3, 0.1);
+          break;
+        case 'heat':
+          switchSliderOpt(3, 1, 3, 0.1);
+          break;
+        default:
+          switchSliderOpt(100, 0, 100, 1);
+      }
+    });
+  }
+
   uploadInput.addEventListener('change', () => {
     showModal();
     fillPreview();
