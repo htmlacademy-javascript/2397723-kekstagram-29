@@ -1,4 +1,4 @@
-import { filteredPicturesList } from './filtered-pictures-list.js';
+import { filterPicturesList } from './filter-pictures-list.js';
 
 const ALERT_SHOW_TIME = 5000;
 
@@ -29,7 +29,7 @@ const fetchPictures = () => {
       .then((response) => {
         if (response.ok) {
           response.json()
-            .then((picturesList) => filteredPicturesList(picturesList));
+            .then((picturesList) => filterPicturesList(picturesList));
         } else {
           showAlert('Не удалось загрузить фотографии пользователей');
         }
