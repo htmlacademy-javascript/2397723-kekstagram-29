@@ -1,3 +1,12 @@
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  console.log('debounce')
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
 const createIdGenerator = () => {
   let lastGeneratedId = 0;
   return function () {
@@ -34,4 +43,4 @@ const generatePhotoId = createIdGenerator();
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { generateCommentId, generatePhotoId, getRandomArrayElement, getRandomInteger, createRandomIdFromRangeGenerator, isEscapeKey };
+export { debounce, generateCommentId, generatePhotoId, getRandomArrayElement, getRandomInteger, createRandomIdFromRangeGenerator, isEscapeKey };
