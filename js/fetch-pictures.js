@@ -1,4 +1,4 @@
-import { filterPicturesList } from './filter-pictures-list.js';
+import { filterPicturesList } from './filter-pictures.js';
 
 const ALERT_SHOW_TIME = 5000;
 
