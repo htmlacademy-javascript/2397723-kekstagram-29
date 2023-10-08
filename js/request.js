@@ -1,7 +1,7 @@
 const ALERT_SHOW_TIME = 5000;
 const ALERT_MESSAGE = 'Не удалось загрузить фотографии пользователей';
 
-const showAlert = (message) => {
+export const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '100';
   alertContainer.style.position = 'absolute';
