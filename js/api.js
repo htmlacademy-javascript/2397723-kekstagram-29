@@ -26,7 +26,33 @@ const ApiPath = {
  * @param {string} url
  * @param {object} config
  */
-const apiRequest = (url, config) => {
+const apiRequest = async (url, config) => {
+  const {method, payload, onSuccess, onError, onFinally, errorMessage = ''} = config;
+
+  try {
+    const res = await fetch(url, {method, ...(payload ? {body: payload} : {})});
+    if (onFinally && typeof onFinally === 'function') {
+      onFinally();
+    }
+
+    if (onSuccess && typeof onSuccess === 'function') {
+      onSuccess(await res.json());
+    }
+
+  } catch (err) {
+    if (onError && typeof onError === 'function') {
+      onError(errorMessage);
+    }
+  }
+};
+
+/**
+ * Универсальная функция, выполняющая запрос на сервер.
+ * @deprecated
+ * @param {string} url
+ * @param {object} config
+ */
+const apiRequestWithThenCatch = (url, config) => {
   const {method, payload, onSuccess, onError, onFinally, errorMessage = ''} = config;
 
   fetch(url, {method, ...(payload ? {body: payload} : {})})
