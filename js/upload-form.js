@@ -1,5 +1,6 @@
 import { isEscapeKey } from './utils.js';
 import { request } from './request.js';
+import { effects, resetEffectsForCloseModal } from './effects.js';
 
 
 const imgUploadForm = document.getElementById('upload-select-image');
@@ -13,11 +14,6 @@ const scaleControlSmaller = imgUploadForm.querySelector('.scale__control--smalle
 const scaleControlBigger = imgUploadForm.querySelector('.scale__control--bigger');
 const scaleControlValue = imgUploadForm.querySelector('.scale__control--value');
 const effectsPreviews = imgUploadForm.querySelectorAll('.effects__preview');
-
-const effectLevelSlider = imgUploadForm.querySelector('.effect-level__slider');
-const effectLevelValue = imgUploadForm.querySelector('.effect-level__value');
-const imgUploadEffectLevel = imgUploadForm.querySelector('.img-upload__effect-level');
-const effectItems = imgUploadForm.querySelectorAll('.effects__radio');
 
 const imgUploadSubmit = imgUploadForm.querySelector('.img-upload__submit');
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
@@ -35,72 +31,7 @@ const SCALE_STEP = 0.25;
 const HASHTAGS_AMOUNT = 5;
 const REQUEST_URL = 'https://29.javascript.pages.academy/kekstagram';
 
-let currentEffect = 'none';
-imgUploadEffectLevel.classList.add(CLASS_HIDDEN);
-
-const resetEffects = () => {
-  changeEffect(0);
-  effectLevelSlider.noUiSlider.reset();
-};
-
-noUiSlider.create(effectLevelSlider, {
-  start: [100],
-  connect: 'lower',
-  range: {
-    'min': 0,
-    'max': 100
-  },
-  step: 1
-});
-
-/**
- * @param {number} start
- * @param {number} min
- * @param {number} max
- * @param {number} step
- */
-const switchSliderOpt = (start, min, max, step) => {
-  effectLevelSlider.noUiSlider.updateOptions({
-    start: [start],
-    range: {
-      'min': min,
-      'max': max
-    },
-    step
-  });
-};
-
-/**
- * @param {number} level
- */
-function changeEffect(level) {
-  switch (currentEffect) {
-    case 'chrome':
-      preview.style.filter = `grayscale(${level / 100})`;
-      break;
-    case 'sepia':
-      preview.style.filter = `sepia(${level / 100})`;
-      break;
-    case 'marvin':
-      preview.style.filter = `invert(${level}%)`;
-      break;
-    case 'phobos':
-      preview.style.filter = `blur(${level}px)`;
-      break;
-    case 'heat':
-      preview.style.filter = `brightness(${level})`;
-      break;
-    case 'none':
-      preview.style.filter = '';
-      break;
-  }
-}
-
-effectLevelSlider.noUiSlider.on('update', () => {
-  const effectLevel = effectLevelSlider.noUiSlider.get();
-  effectLevelValue.value = effectLevel;
-  changeEffect(effectLevel);
-});
+// Наложение эффектов
 
 // Валидация
 
@@ -326,13 +257,10 @@ function closeModal() {
   uploadCancel.removeEventListener('click', onCloseBtnClick);
   changeScale(1);
   uploadInput.value = '';
-  currentEffect = 'none';
+  resetEffectsForCloseModal();
   currentScale = 1;
-  resetEffects();
-  effectItems[0].checked = true;
   textHashtag.value = '';
   textDescription.value = '';
-  imgUploadEffectLevel.classList.add(CLASS_HIDDEN);
 }
 
 const showModal = () => {
@@ -344,30 +272,9 @@ const showModal = () => {
   scaleControlSmaller.addEventListener('click', minusScale);
 };
 
-
 const initUploadForm = () => {
 
-  for (const item of effectItems) {
-    item.addEventListener('change', () => {
-      currentEffect = item.value;
-      resetEffects();
-      if (item.value !== 'none') {
-        imgUploadEffectLevel.classList.remove(CLASS_HIDDEN);
-      } else {
-        imgUploadEffectLevel.classList.add(CLASS_HIDDEN);
-      }
-      switch (currentEffect) {
-        case 'phobos':
-          switchSliderOpt(3, 0, 3, 0.1);
-          break;
-        case 'heat':
-          switchSliderOpt(3, 1, 3, 0.1);
-          break;
-        default:
-          switchSliderOpt(100, 0, 100, 1);
-      }
-    });
-  }
+  effects();
 
   uploadInput.addEventListener('change', () => {
     showModal();
