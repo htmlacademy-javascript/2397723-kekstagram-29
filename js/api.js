@@ -9,7 +9,7 @@ const HttpMethod = {
 };
 
 const ApiPath = {
-  PICTURES: '/data',
+  PICTURES: '/data2',
   UPLOAD: '',
 };
 
