@@ -2,10 +2,7 @@
  * Модуль отвечающий за взаимодействие с api.
  */
 
-/**
- * Адрес api.
- * @type {string}
- */
+/** Адрес api. */
 const API_BASE_URL = 'https://29.javascript.pages.academy/kekstagram';
 
 const HttpMethod = {
@@ -20,7 +17,7 @@ const HttpMethod = {
  * Пути до ресурсов, которые доступны через api.
  */
 const ApiPath = {
-  PICTURES: '/data',
+  PICTURES: '/data2',
   UPLOAD: '',
 };
 

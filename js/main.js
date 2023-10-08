@@ -1,4 +1,3 @@
-import { showAlert } from './fetch-pictures.js';
 import { initUploadForm } from './upload-form.js';
 import { getPictures } from './api.js';
 import { filterPicturesList } from './filter-pictures.js';
