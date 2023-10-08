@@ -13,14 +13,14 @@ const textDescription = imgUploadForm.querySelector('.text__description');
 const CLASS_HIDDEN = 'hidden';
 const CLASS_MODAL_OPEN = 'modal-open';
 
-function onDocumentKeydown(evt) {
+const onDocumentKeydown = (evt) => {
   if (document.activeElement !== textHashtag && document.activeElement !== textDescription) {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       closeModal();
     }
   }
-}
+};
 
 const onCloseBtnClick = (evt) => {
   evt.preventDefault();
