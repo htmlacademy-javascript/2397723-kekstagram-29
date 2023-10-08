@@ -5,9 +5,6 @@ const scaleControlBigger = document.querySelector('.scale__control--bigger');
 
 const SCALE_STEP = 0.25;
 
-scaleControlBigger.addEventListener('click', plusScale);
-scaleControlSmaller.addEventListener('click', minusScale);
-
 /**
  * @param {number} scaleValue
  */
@@ -18,19 +15,22 @@ function changeScale(scaleValue) {
 
 let currentScale = 1;
 
-function plusScale() {
+const plusScale = () => {
   if (currentScale < 1) {
     currentScale += SCALE_STEP;
     changeScale(currentScale);
   }
-}
+};
 
-function minusScale() {
+const minusScale = () => {
   if (currentScale > 0.25) {
     currentScale -= SCALE_STEP;
     changeScale(currentScale);
   }
-}
+};
+
+scaleControlBigger.addEventListener('click', plusScale);
+scaleControlSmaller.addEventListener('click', minusScale);
 
 const resetScaleForCloseModal = () => {
   changeScale(1);
