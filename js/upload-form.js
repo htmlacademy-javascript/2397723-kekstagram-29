@@ -1,6 +1,7 @@
 import { isEscapeKey } from './utils.js';
 import { request } from './request.js';
 import { effects, resetEffectsForCloseModal } from './effects.js';
+import { resetScaleForCloseModal } from './scale.js';
 
 
 const imgUploadForm = document.getElementById('upload-select-image');
@@ -9,10 +10,9 @@ const uploadOverlay = imgUploadForm.querySelector('.img-upload__overlay');
 const uploadCancel = imgUploadForm.querySelector('.img-upload__cancel');
 const textHashtag = imgUploadForm.querySelector('.text__hashtags');
 const textDescription = imgUploadForm.querySelector('.text__description');
+
 const preview = imgUploadForm.querySelector('.img-upload__preview').querySelector('img');
-const scaleControlSmaller = imgUploadForm.querySelector('.scale__control--smaller');
-const scaleControlBigger = imgUploadForm.querySelector('.scale__control--bigger');
-const scaleControlValue = imgUploadForm.querySelector('.scale__control--value');
+
 const effectsPreviews = imgUploadForm.querySelectorAll('.effects__preview');
 
 const imgUploadSubmit = imgUploadForm.querySelector('.img-upload__submit');
@@ -27,13 +27,13 @@ const errorButton = errorMessage.querySelector('.error__button');
 
 const CLASS_HIDDEN = 'hidden';
 const CLASS_MODAL_OPEN = 'modal-open';
-const SCALE_STEP = 0.25;
-const HASHTAGS_AMOUNT = 5;
 const REQUEST_URL = 'https://29.javascript.pages.academy/kekstagram';
 
 // Наложение эффектов
 
 // Валидация
+
+const HASHTAGS_AMOUNT = 5;
 
 const validationErrors = {
   pattern: 'Хэштег не соответствует шаблону',
@@ -87,6 +87,7 @@ pristine.addValidator(textHashtag, (value) => {
   return test.noDublicates;
 }, validationErrors.dublicate, 3, true);
 
+
 // Отправка данных
 
 const blockSubmitButton = () => {
@@ -131,7 +132,6 @@ const onErrorButtonClick = () => {
   closeError();
 };
 
-
 const openSuccess = () => {
   document.body.appendChild(successMessage);
   successMessage.addEventListener('click', onSuccessBlur);
@@ -139,7 +139,6 @@ const openSuccess = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
   document.addEventListener('keydown', onSuccessKeydown);
 };
-
 
 const openError = () => {
   document.body.appendChild(errorMessage);
@@ -192,7 +191,7 @@ imgUploadForm.addEventListener('submit', async (evt) => {
   }
 });
 
-// Подстановка загружаемого изображения, масштабирование
+// Подстановка загружаемого изображения
 
 const createImageUrl = () => {
   const file = uploadInput.files[0];
@@ -201,30 +200,6 @@ const createImageUrl = () => {
   }
   return undefined;
 };
-
-/**
- * @param {number} scaleValue
- */
-function changeScale(scaleValue) {
-  scaleControlValue.value = `${scaleValue * 100}%`;
-  preview.style.transform = `scale(${scaleValue})`;
-}
-
-let currentScale = 1;
-
-function plusScale() {
-  if (currentScale < 1) {
-    currentScale += SCALE_STEP;
-    changeScale(currentScale);
-  }
-}
-
-function minusScale() {
-  if (currentScale > 0.25) {
-    currentScale -= SCALE_STEP;
-    changeScale(currentScale);
-  }
-}
 
 const fillPreview = () => {
   const imageUrl = createImageUrl();
@@ -255,10 +230,9 @@ function closeModal() {
   document.body.classList.remove(CLASS_MODAL_OPEN);
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadCancel.removeEventListener('click', onCloseBtnClick);
-  changeScale(1);
   uploadInput.value = '';
   resetEffectsForCloseModal();
-  currentScale = 1;
+  resetScaleForCloseModal();
   textHashtag.value = '';
   textDescription.value = '';
 }
@@ -268,8 +242,6 @@ const showModal = () => {
   document.body.classList.add(CLASS_MODAL_OPEN);
   document.addEventListener('keydown', onDocumentKeydown);
   uploadCancel.addEventListener('click', onCloseBtnClick);
-  scaleControlBigger.addEventListener('click', plusScale);
-  scaleControlSmaller.addEventListener('click', minusScale);
 };
 
 const initUploadForm = () => {
