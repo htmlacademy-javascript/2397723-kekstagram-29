@@ -311,26 +311,20 @@ const initUploadFormSubmit = () => {
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
+
     if (isValid) {
       blockSubmitButton();
-      const payload = new FormData(imgUploadForm);
-      postPicture(
-        () => {
-          unblockSubmitButton();
-          openSuccess();
-        },
-        () => {
-          unblockSubmitButton();
-          openError();
-        },
-        '',
-        payload,
-      );
+      postPicture({
+        payload: new FormData(imgUploadForm),
+        onSuccess: openSuccess,
+        onFinally: unblockSubmitButton,
+        onError: openError,
+      });
     }
   });
 };
 
-const initUploadForm = () => {
+export const initUploadForm = () => {
   for (const item of effectItems) {
     item.addEventListener('change', () => {
       currentEffect = item.value;

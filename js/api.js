@@ -24,58 +24,55 @@ const ApiPath = {
 /**
  * Универсальная функция, выполняющая запрос на сервер.
  * @param {string} url
- * @param {string} method
- * @param {function} onSuccess
- * @param {function} onError
- * @param {string} errorMessage
- * @param {object | null} payload
+ * @param {object} config
  */
-const apiRequest = (url, method, onSuccess, onError, errorMessage = '', payload = null) => {
+const apiRequest = (url, config) => {
+  const {method, payload, onSuccess, onError, onFinally, errorMessage = ''} = config;
+
   fetch(url, {method, ...(payload ? {body: payload} : {})})
     .then((res) => {
+      if (onFinally && typeof onFinally === 'function') {
+        onFinally();
+      }
       if (!res.ok) {
         throw new Error();
       }
       return res.json();
     })
     .then((pictures) => {
-      onSuccess(pictures);
+      if (onSuccess && typeof onSuccess === 'function') {
+        onSuccess(pictures);
+      }
     })
     .catch(() => {
-      onError(errorMessage);
+      if (onError && typeof onError === 'function') {
+        onError(errorMessage);
+      }
     });
 }
 
 /**
  * Загрузить фотографии пользователей.
- * @param {function} onSuccess
- * @param {function} onError
- * @param {string} errorMessage
+ * @param {
+ *  {onSuccess?: Function, onError?: Function, onFinally?: Function, errorMessage?: string}
+ * } config
  */
-export const getPictures = (onSuccess, onError, errorMessage) => {
+export const getPictures = (config) => {
   apiRequest(
     `${API_BASE_URL}${ApiPath.PICTURES}`,
-    HttpMethod.GET,
-    onSuccess,
-    onError,
-    errorMessage,
+    {method: HttpMethod.GET, ...config},
   );
 };
 
 /**
  * Отправить фотографию из формы.
- * @param {function} onSuccess
- * @param {function} onError
- * @param {string} errorMessage
- * @param {object} payload
+ * @param {
+ *  {onSuccess?: Function, onError?: Function, onFinally?: Function, payload: FormData}
+ * } config
  */
-export const postPicture = (onSuccess, onError, errorMessage, payload) => {
+export const postPicture = (config) => {
   apiRequest(
     `${API_BASE_URL}${ApiPath.UPLOAD}`,
-    HttpMethod.POST,
-    onSuccess,
-    onError,
-    errorMessage,
-    payload,
+    {method: HttpMethod.POST, ...config},
   );
 };
