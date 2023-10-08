@@ -17,12 +17,21 @@ const HttpMethod = {
  * Пути до ресурсов, которые доступны через api.
  */
 const ApiPath = {
-  PICTURES: '/data2',
+  PICTURES: '/data',
   UPLOAD: '',
 };
 
-const apiRequest = (url, method, errorMessage, onSuccess, onError) => {
-  fetch(url)
+/**
+ * Универсальная функция, выполняющая запрос на сервер.
+ * @param {string} url
+ * @param {string} method
+ * @param {function} onSuccess
+ * @param {function} onError
+ * @param {string} errorMessage
+ * @param {object | null} payload
+ */
+const apiRequest = (url, method, onSuccess, onError, errorMessage = '', payload = null) => {
+  fetch(url, {method, ...(payload ? {body: payload} : {})})
     .then((res) => {
       if (!res.ok) {
         throw new Error();
@@ -47,8 +56,26 @@ export const getPictures = (onSuccess, onError, errorMessage) => {
   apiRequest(
     `${API_BASE_URL}${ApiPath.PICTURES}`,
     HttpMethod.GET,
-    errorMessage,
     onSuccess,
     onError,
+    errorMessage,
+  );
+};
+
+/**
+ * Отправить фотографию из формы.
+ * @param {function} onSuccess
+ * @param {function} onError
+ * @param {string} errorMessage
+ * @param {object} payload
+ */
+export const postPicture = (onSuccess, onError, errorMessage, payload) => {
+  apiRequest(
+    `${API_BASE_URL}${ApiPath.UPLOAD}`,
+    HttpMethod.POST,
+    onSuccess,
+    onError,
+    errorMessage,
+    payload,
   );
 };
