@@ -1,4 +1,6 @@
 import { isEscapeKey } from './utils.js';
+import { request } from './request.js';
+
 
 const imgUploadForm = document.getElementById('upload-select-image');
 const uploadInput = imgUploadForm.querySelector('.img-upload__input');
@@ -31,6 +33,7 @@ const CLASS_HIDDEN = 'hidden';
 const CLASS_MODAL_OPEN = 'modal-open';
 const SCALE_STEP = 0.25;
 const HASHTAGS_AMOUNT = 5;
+const REQUEST_URL = 'https://29.javascript.pages.academy/kekstagram';
 
 let currentEffect = 'none';
 imgUploadEffectLevel.classList.add(CLASS_HIDDEN);
@@ -231,30 +234,25 @@ function closeError() {
   document.body.removeChild(errorMessage);
 }
 
-const fetchImageData = () => {
+const fetchImageData = async () => {
   const formData = new FormData(imgUploadForm);
   try {
-    fetch('https://29.javascript.pages.academy/kekstagram',
-      {
-        method: 'POST',
-        body: formData
-      })
-      .then((response) => {
-        if (response.ok) {
-          unblockSubmitButton();
-          openSuccess();
-        } else {
-          unblockSubmitButton();
-          openError();
-        }
-      });
+    const req = await request({url: REQUEST_URL, method: 'POST', body: formData});
+
+    if (req) {
+      unblockSubmitButton();
+      openSuccess();
+    } else {
+      unblockSubmitButton();
+      openError();
+    }
   } catch (error) {
     unblockSubmitButton();
     openError();
   }
 };
 
-imgUploadForm.addEventListener('submit', (evt) => {
+imgUploadForm.addEventListener('submit', async (evt) => {
   evt.preventDefault();
   const isValid = pristine.validate();
   if (isValid) {
