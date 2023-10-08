@@ -2,6 +2,7 @@ import { isEscapeKey } from './utils.js';
 import { request } from './request.js';
 import { effects, resetEffectsForCloseModal } from './effects.js';
 import { resetScaleForCloseModal } from './scale.js';
+import { fillPreview } from './fill-preview.js';
 
 
 const imgUploadForm = document.getElementById('upload-select-image');
@@ -11,9 +12,6 @@ const uploadCancel = imgUploadForm.querySelector('.img-upload__cancel');
 const textHashtag = imgUploadForm.querySelector('.text__hashtags');
 const textDescription = imgUploadForm.querySelector('.text__description');
 
-const preview = imgUploadForm.querySelector('.img-upload__preview').querySelector('img');
-
-const effectsPreviews = imgUploadForm.querySelectorAll('.effects__preview');
 
 const imgUploadSubmit = imgUploadForm.querySelector('.img-upload__submit');
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
@@ -192,22 +190,6 @@ imgUploadForm.addEventListener('submit', async (evt) => {
 });
 
 // Подстановка загружаемого изображения
-
-const createImageUrl = () => {
-  const file = uploadInput.files[0];
-  if (file) {
-    return URL.createObjectURL(file);
-  }
-  return undefined;
-};
-
-const fillPreview = () => {
-  const imageUrl = createImageUrl();
-  preview.src = imageUrl;
-  for (const effectsPreviewItem of effectsPreviews) {
-    effectsPreviewItem.style.backgroundImage = `url(${imageUrl})`;
-  }
-};
 
 // Открытие-закрытие модалки
 
