@@ -1,5 +1,13 @@
-import { fetchPictures } from './fetch-pictures.js';
 import { initUploadForm } from './upload-form.js';
+import { request } from './request.js';
+import { filterPicturesList } from './filter-pictures.js';
 
-fetchPictures();
+
+const URL = 'https://29.javascript.pages.academy/kekstagram/data';
+
+
+const photoData = await request({url: URL, toast: true});
+
+filterPicturesList(photoData);
+
 initUploadForm();
