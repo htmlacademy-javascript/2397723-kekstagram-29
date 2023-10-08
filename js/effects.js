@@ -4,9 +4,7 @@ const effectLevelValue = document.querySelector('.effect-level__value');
 const effectItems = document.querySelectorAll('.effects__radio');
 const preview = document.querySelector('.img-upload__preview').querySelector('img');
 
-
 const CLASS_HIDDEN = 'hidden';
-
 
 let currentEffect = 'none';
 imgUploadEffectLevel.classList.add(CLASS_HIDDEN);
