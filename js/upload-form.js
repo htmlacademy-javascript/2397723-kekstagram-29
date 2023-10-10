@@ -1,5 +1,6 @@
 import { isEscapeKey } from './utils.js';
 import { postPicture } from './api.js';
+import { blockSubmitButton, unblockSubmitButton, openUploadResultMessage } from './modal-notifications.js';
 
 const imgUploadForm = document.getElementById('upload-select-image');
 const uploadInput = imgUploadForm.querySelector('.img-upload__input');
@@ -18,14 +19,6 @@ const effectLevelValue = imgUploadForm.querySelector('.effect-level__value');
 const imgUploadEffectLevel = imgUploadForm.querySelector('.img-upload__effect-level');
 const effectItems = imgUploadForm.querySelectorAll('.effects__radio');
 
-const imgUploadSubmit = imgUploadForm.querySelector('.img-upload__submit');
-const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
-const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
-
-const successMessage = successMessageTemplate.cloneNode(true);
-const successButton = successMessage.querySelector('.success__button');
-const errorMessage = errorMessageTemplate.cloneNode(true);
-const errorButton = errorMessage.querySelector('.error__button');
 
 const CLASS_HIDDEN = 'hidden';
 const CLASS_MODAL_OPEN = 'modal-open';
@@ -152,84 +145,6 @@ pristine.addValidator(textHashtag, (value) => {
   return test.noDublicates;
 }, validationErrors.dublicate, 3, true);
 
-// Отправка данных
-
-const blockSubmitButton = () => {
-  imgUploadSubmit.disabled = true;
-};
-const unblockSubmitButton = () => {
-  imgUploadSubmit.disabled = false;
-};
-
-
-const onSuccessKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeSuccess();
-  }
-};
-
-const onErrorKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closeError();
-  }
-};
-
-const onSuccessBlur = (evt) => {
-  if (evt.target === successMessage) {
-    closeSuccess();
-  }
-};
-
-const onErrorBlur = (evt) => {
-  if (evt.target === errorMessage) {
-    closeError();
-  }
-};
-
-const onSuccessButtonClick = () => {
-  closeSuccess();
-};
-
-const onErrorButtonClick = () => {
-  closeError();
-};
-
-
-const openSuccess = () => {
-  document.body.appendChild(successMessage);
-  successMessage.addEventListener('click', onSuccessBlur);
-  successButton.addEventListener('click', onSuccessButtonClick);
-  document.removeEventListener('keydown', onDocumentKeydown);
-  document.addEventListener('keydown', onSuccessKeydown);
-};
-
-
-const openError = () => {
-  document.body.appendChild(errorMessage);
-  document.addEventListener('keydown', onErrorKeydown);
-  errorMessage.addEventListener('click', onErrorBlur);
-  errorButton.addEventListener('click', onErrorButtonClick);
-  document.removeEventListener('keydown', onDocumentKeydown);
-};
-
-function closeSuccess() {
-  successMessage.removeEventListener('click', onSuccessBlur);
-  successButton.removeEventListener('click', onSuccessButtonClick);
-  document.removeEventListener('click', onSuccessKeydown);
-  document.body.removeChild(successMessage);
-  closeModal();
-}
-
-function closeError() {
-  document.removeEventListener('keydown', onErrorKeydown);
-  errorMessage.removeEventListener('click', onErrorBlur);
-  errorButton.removeEventListener('click', onErrorButtonClick);
-  document.addEventListener('keydown', onDocumentKeydown);
-  document.body.removeChild(errorMessage);
-}
-
 // Подстановка загружаемого изображения, масштабирование
 const createImageUrl = () => {
   const file = uploadInput.files[0];
@@ -273,7 +188,7 @@ const fillPreview = () => {
 
 // Открытие-закрытие модалки
 
-function onDocumentKeydown(evt) {
+export function onDocumentKeydown(evt) {
   if (document.activeElement !== textHashtag && document.activeElement !== textDescription) {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
@@ -287,7 +202,7 @@ const onCloseBtnClick = (evt) => {
   closeModal();
 };
 
-function closeModal() {
+export function closeModal() {
   uploadOverlay.classList.add(CLASS_HIDDEN);
   document.body.classList.remove(CLASS_MODAL_OPEN);
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -316,9 +231,9 @@ const initUploadFormSubmit = () => {
       blockSubmitButton();
       postPicture({
         payload: new FormData(imgUploadForm),
-        onSuccess: openSuccess,
+        onSuccess: openUploadResultMessage('success'),
         onFinally: unblockSubmitButton,
-        onError: openError,
+        onError: openUploadResultMessage('error'),
       });
     }
   });
