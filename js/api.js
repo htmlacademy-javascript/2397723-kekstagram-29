@@ -75,7 +75,7 @@ const apiRequestWithThenCatch = (url, config) => {
         onError(errorMessage);
       }
     });
-}
+};
 
 /**
  * Загрузить фотографии пользователей.
