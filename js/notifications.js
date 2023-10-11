@@ -1,11 +1,9 @@
-/**
- * Модуль уведомлений.
- */
-
-/** Время отображения уведомления в ms. */
 const NOTIFICATION_SHOW_TIME = 5000;
 
-export const showErrorNotification = (message) => {
+/**
+ * @param {string} message
+ */
+const showErrorNotification = (message) => {
   const notificationElement = document.createElement('div');
   notificationElement.style.position = 'fixed';
   notificationElement.style.top = '0';
@@ -24,3 +22,5 @@ export const showErrorNotification = (message) => {
     notificationElement.remove();
   }, NOTIFICATION_SHOW_TIME);
 };
+
+export { showErrorNotification };
