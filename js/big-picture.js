@@ -73,7 +73,6 @@ const renderComments = (comments) => {
       }
     };
   }
-
 };
 
 /**
