@@ -1,8 +1,3 @@
-/**
- * Модуль отвечающий за взаимодействие с api.
- */
-
-/** Адрес api. */
 const API_BASE_URL = 'https://29.javascript.pages.academy/kekstagram';
 
 const HttpMethod = {
@@ -13,16 +8,12 @@ const HttpMethod = {
   PATCH: 'PATCH',
 };
 
-/**
- * Пути до ресурсов, которые доступны через api.
- */
 const ApiPath = {
   PICTURES: '/data',
   UPLOAD: '',
 };
 
 /**
- * Универсальная функция, выполняющая запрос на сервер.
  * @param {string} url
  * @param {object} config
  */
@@ -47,12 +38,11 @@ const apiRequest = async (url, config) => {
 };
 
 /**
- * Загрузить фотографии пользователей.
  * @param {
  *  {onSuccess?: Function, onError?: Function, onFinally?: Function, errorMessage?: string}
  * } config
  */
-export const getPictures = (config) => {
+const getPictures = (config) => {
   apiRequest(
     `${API_BASE_URL}${ApiPath.PICTURES}`,
     {method: HttpMethod.GET, ...config},
@@ -60,14 +50,15 @@ export const getPictures = (config) => {
 };
 
 /**
- * Отправить фотографию из формы.
  * @param {
  *  {onSuccess?: Function, onError?: Function, onFinally?: Function, payload: FormData}
  * } config
  */
-export const postPicture = (config) => {
+const postPicture = (config) => {
   apiRequest(
     `${API_BASE_URL}${ApiPath.UPLOAD}`,
     {method: HttpMethod.POST, ...config},
   );
 };
+
+export { getPictures, postPicture };
