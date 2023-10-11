@@ -10,10 +10,11 @@ const successButton = successMessage.querySelector('.success__button');
 const errorMessage = errorMessageTemplate.cloneNode(true);
 const errorButton = errorMessage.querySelector('.error__button');
 
-export const blockSubmitButton = () => {
+const blockSubmitButton = () => {
   imgUploadSubmit.disabled = true;
 };
-export const unblockSubmitButton = () => {
+
+const unblockSubmitButton = () => {
   imgUploadSubmit.disabled = false;
 };
 
@@ -54,7 +55,7 @@ const onErrorButtonClick = () => {
 /**
  * @param {string} type
  */
-export const openUploadResultMessage = (type) => {
+const openUploadResultMessage = (type) => {
   switch (type) {
     case 'success':
       return () => {
@@ -92,3 +93,5 @@ function closeError() {
   document.addEventListener('keydown', onDocumentKeydown);
   document.body.removeChild(errorMessage);
 }
+
+export { blockSubmitButton, unblockSubmitButton, openUploadResultMessage };
