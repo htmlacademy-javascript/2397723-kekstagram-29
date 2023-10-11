@@ -47,37 +47,6 @@ const apiRequest = async (url, config) => {
 };
 
 /**
- * Универсальная функция, выполняющая запрос на сервер.
- * @deprecated
- * @param {string} url
- * @param {object} config
- */
-const apiRequestWithThenCatch = (url, config) => {
-  const {method, payload, onSuccess, onError, onFinally, errorMessage = ''} = config;
-
-  fetch(url, {method, ...(payload ? {body: payload} : {})})
-    .then((res) => {
-      if (onFinally && typeof onFinally === 'function') {
-        onFinally();
-      }
-      if (!res.ok) {
-        throw new Error();
-      }
-      return res.json();
-    })
-    .then((pictures) => {
-      if (onSuccess && typeof onSuccess === 'function') {
-        onSuccess(pictures);
-      }
-    })
-    .catch(() => {
-      if (onError && typeof onError === 'function') {
-        onError(errorMessage);
-      }
-    });
-};
-
-/**
  * Загрузить фотографии пользователей.
  * @param {
  *  {onSuccess?: Function, onError?: Function, onFinally?: Function, errorMessage?: string}
