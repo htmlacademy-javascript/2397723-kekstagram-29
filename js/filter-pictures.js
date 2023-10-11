@@ -1,7 +1,6 @@
 import { renderPictures } from './pictures.js';
 import { getRandomInteger, debounce } from './utils.js';
 
-
 const imgFiltersInactive = document.querySelector('.img-filters');
 const filterButtonDefault = document.querySelector('#filter-default');
 const filterButtonRandom = document.querySelector('#filter-random');
@@ -11,6 +10,10 @@ const RANDOM_PICTURES_AMOUNT = 10;
 
 let slicePictures = [];
 
+/**
+ * @param {object[]} pictures
+ * @returns
+ */
 const randomPictures = (pictures) => {
   const previousValues = [];
   const chousenPictures = [];
@@ -27,11 +30,17 @@ const randomPictures = (pictures) => {
   }
 };
 
+/**
+ * @param {object[]} pictures
+ */
 const sortPictures = (pictures) => {
   const sortedPictures = pictures.slice();
   return sortedPictures.sort((a, b) => b.likes - a.likes);
 };
 
+/**
+ * @param {object[]} pictures
+ */
 const filter = (pictures) => {
   const activeFilter = document.querySelector('.img-filters__button--active');
 
