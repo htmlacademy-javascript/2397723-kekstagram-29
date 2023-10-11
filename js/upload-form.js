@@ -16,10 +16,7 @@ const textDescription = imgUploadForm.querySelector('.text__description');
 const CLASS_HIDDEN = 'hidden';
 const CLASS_MODAL_OPEN = 'modal-open';
 
-
-// Открытие-закрытие модалки
-
-export function onDocumentKeydown(evt) {
+function onDocumentKeydown(evt) {
   if (document.activeElement !== textHashtag && document.activeElement !== textDescription) {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
@@ -33,7 +30,7 @@ const onCloseBtnClick = (evt) => {
   closeModal();
 };
 
-export function closeModal() {
+function closeModal() {
   uploadOverlay.classList.add(CLASS_HIDDEN);
   document.body.classList.remove(CLASS_MODAL_OPEN);
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -52,7 +49,6 @@ const showModal = () => {
   uploadCancel.addEventListener('click', onCloseBtnClick);
 };
 
-/** Инициализирует логику отправки формы изображения. */
 const initUploadFormSubmit = () => {
   imgUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -70,7 +66,7 @@ const initUploadFormSubmit = () => {
   });
 };
 
-export const initUploadForm = () => {
+const initUploadForm = () => {
   effects();
 
   uploadInput.addEventListener('change', () => {
