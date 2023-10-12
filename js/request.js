@@ -1,6 +1,5 @@
-import { filterPicturesList } from './filter-pictures.js';
-
 const ALERT_SHOW_TIME = 5000;
+const ALERT_MESSAGE = 'Не удалось загрузить фотографии пользователей';
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -23,20 +22,20 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-const fetchPictures = () => {
+const request = async ({url, method = 'GET', body = null, headers = {}, toast = false}) => {
   try {
-    fetch('https://29.javascript.pages.academy/kekstagram/data')
-      .then((response) => {
-        if (response.ok) {
-          response.json()
-            .then((picturesList) => filterPicturesList(picturesList));
-        } else {
-          showAlert('Не удалось загрузить фотографии пользователей');
-        }
-      });
-  } catch (error) {
-    showAlert(error.message);
+    const response = await fetch(url, { method, body, headers });
+    const data = await response.json();
+
+    if (!response.ok && toast) {
+      showAlert(ALERT_MESSAGE);
+    }
+    return data;
+  } catch (e) {
+    if (toast) {
+      showAlert(e.message);
+    }
   }
 };
 
-export { fetchPictures };
+export { request };
