@@ -1,3 +1,11 @@
+/**
+ * @callback debouncedFunction
+ */
+
+/**
+ * @param {debouncedFunction} callback
+ * @param {number} timeoutDelay
+ */
 const debounce = (callback, timeoutDelay = 500) => {
   let timeoutId;
   return (...rest) => {
@@ -6,6 +14,10 @@ const debounce = (callback, timeoutDelay = 500) => {
   };
 };
 
+/**
+ * @param {number} a
+ * @param {number} b
+ */
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));

@@ -2,6 +2,9 @@ import { isEscapeKey } from './utils.js';
 import { effects, resetEffectsForCloseModal } from './effects.js';
 import { resetScaleForCloseModal } from './scale.js';
 import { fillPreview } from './fill-preview.js';
+import { postPicture } from './api.js';
+import { pristine } from './validate-upload-form.js';
+import { blockSubmitButton, unblockSubmitButton, openUploadResultMessage } from './modal-notifications.js';
 
 const imgUploadForm = document.getElementById('upload-select-image');
 const uploadInput = imgUploadForm.querySelector('.img-upload__input');
@@ -13,14 +16,14 @@ const textDescription = imgUploadForm.querySelector('.text__description');
 const CLASS_HIDDEN = 'hidden';
 const CLASS_MODAL_OPEN = 'modal-open';
 
-const onDocumentKeydown = (evt) => {
+function onDocumentKeydown(evt) {
   if (document.activeElement !== textHashtag && document.activeElement !== textDescription) {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       closeModal();
     }
   }
-};
+}
 
 const onCloseBtnClick = (evt) => {
   evt.preventDefault();
@@ -46,12 +49,32 @@ const showModal = () => {
   uploadCancel.addEventListener('click', onCloseBtnClick);
 };
 
+const initUploadFormSubmit = () => {
+  imgUploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+
+    if (isValid) {
+      blockSubmitButton();
+      postPicture({
+        payload: new FormData(imgUploadForm),
+        onSuccess: openUploadResultMessage('success'),
+        onFinally: unblockSubmitButton,
+        onError: openUploadResultMessage('error'),
+      });
+    }
+  });
+};
+
 const initUploadForm = () => {
   effects();
+
   uploadInput.addEventListener('change', () => {
     showModal();
     fillPreview();
   });
+
+  initUploadFormSubmit();
 };
 
 export { initUploadForm, onDocumentKeydown, closeModal };
