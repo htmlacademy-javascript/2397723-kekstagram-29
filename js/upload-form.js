@@ -23,7 +23,7 @@ function onDocumentKeydown(evt) {
       closeModal();
     }
   }
-};
+}
 
 const onCloseBtnClick = (evt) => {
   evt.preventDefault();
