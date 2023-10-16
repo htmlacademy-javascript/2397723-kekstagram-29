@@ -69,7 +69,7 @@ function changeEffect(level) {
 
 effectLevelSlider.noUiSlider.on('update', () => {
   const effectLevel = effectLevelSlider.noUiSlider.get();
-  effectLevelValue.value = Number(effectLevel);
+  effectLevelValue.value = effectLevel;
   changeEffect(effectLevel);
 });
 
