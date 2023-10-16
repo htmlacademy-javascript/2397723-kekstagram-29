@@ -35,11 +35,7 @@ function closeModal() {
   document.body.classList.remove(CLASS_MODAL_OPEN);
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadCancel.removeEventListener('click', onCloseBtnClick);
-  uploadInput.value = '';
-  resetEffectsForCloseModal();
-  resetScaleForCloseModal();
-  textHashtag.value = '';
-  textDescription.value = '';
+  resetForm();
 }
 
 const showModal = () => {
@@ -48,6 +44,17 @@ const showModal = () => {
   document.addEventListener('keydown', onDocumentKeydown);
   uploadCancel.addEventListener('click', onCloseBtnClick);
 };
+
+function resetForm () {
+  unblockSubmitButton();
+  pristine.reset();
+  uploadInput.value = '';
+  resetEffectsForCloseModal();
+  resetScaleForCloseModal();
+  textHashtag.value = '';
+  textDescription.value = '';
+}
+
 
 const initUploadFormSubmit = () => {
   imgUploadForm.addEventListener('submit', (evt) => {
@@ -62,7 +69,6 @@ const initUploadFormSubmit = () => {
         onFinally: unblockSubmitButton,
         onError: openUploadResultMessage('error'),
       });
-      pristine.reset();
     }
   });
 };
@@ -78,4 +84,4 @@ const initUploadForm = () => {
   initUploadFormSubmit();
 };
 
-export { initUploadForm, onDocumentKeydown, closeModal };
+export { initUploadForm, onDocumentKeydown, closeModal, resetForm };
