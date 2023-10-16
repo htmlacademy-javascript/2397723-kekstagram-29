@@ -32,7 +32,6 @@ const onCloseBtnClick = (evt) => {
 
 function closeModal() {
   uploadOverlay.classList.add(CLASS_HIDDEN);
-  document.body.classList.remove(CLASS_MODAL_OPEN);
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadCancel.removeEventListener('click', onCloseBtnClick);
   resetForm();
@@ -46,6 +45,7 @@ const showModal = () => {
 };
 
 function resetForm () {
+  document.body.classList.remove(CLASS_MODAL_OPEN);
   unblockSubmitButton();
   pristine.reset();
   uploadInput.value = '';
