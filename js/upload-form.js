@@ -35,7 +35,6 @@ function closeModal() {
   document.body.classList.remove(CLASS_MODAL_OPEN);
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadCancel.removeEventListener('click', onCloseBtnClick);
-  pristine.reset();
   uploadInput.value = '';
   resetEffectsForCloseModal();
   resetScaleForCloseModal();
@@ -63,6 +62,7 @@ const initUploadFormSubmit = () => {
         onFinally: unblockSubmitButton,
         onError: openUploadResultMessage('error'),
       });
+      pristine.reset();
     }
   });
 };
