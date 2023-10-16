@@ -1,5 +1,5 @@
 import { isEscapeKey } from './utils.js';
-import { onDocumentKeydown, closeModal } from './upload-form.js';
+import { onDocumentKeydown, closeModal, resetForm } from './upload-form.js';
 
 const imgUploadSubmit = document.querySelector('.img-upload__submit');
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
@@ -60,6 +60,7 @@ const openUploadResultMessage = (type) => {
     case 'success':
       return () => {
         document.body.appendChild(successMessage);
+        resetForm();
         successMessage.addEventListener('click', onSuccessBlur);
         successButton.addEventListener('click', onSuccessButtonClick);
         document.removeEventListener('keydown', onDocumentKeydown);
