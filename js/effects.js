@@ -47,10 +47,10 @@ const switchSliderOpt = (start, min, max, step) => {
 function changeEffect(level) {
   switch (currentEffect) {
     case 'chrome':
-      preview.style.filter = `grayscale(${level / 100})`;
+      preview.style.filter = `grayscale(${level})`;
       break;
     case 'sepia':
-      preview.style.filter = `sepia(${level / 100})`;
+      preview.style.filter = `sepia(${level})`;
       break;
     case 'marvin':
       preview.style.filter = `invert(${level}%)`;
@@ -91,6 +91,12 @@ const effects = () => {
         imgUploadEffectLevel.classList.add(CLASS_HIDDEN);
       }
       switch (currentEffect) {
+        case 'chrome':
+          switchSliderOpt(1, 0, 1, 0.1);
+          break;
+        case 'sepia':
+          switchSliderOpt(1, 0, 1, 0.1);
+          break;
         case 'phobos':
           switchSliderOpt(3, 0, 3, 0.1);
           break;

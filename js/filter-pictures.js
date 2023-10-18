@@ -35,7 +35,7 @@ const randomPictures = (pictures) => {
  */
 const sortPictures = (pictures) => {
   const sortedPictures = pictures.slice();
-  return sortedPictures.sort((a, b) => b.likes - a.likes);
+  return sortedPictures.sort((a, b) => b.comments.length - a.comments.length);
 };
 
 /**

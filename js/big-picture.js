@@ -12,7 +12,8 @@ const bigPictureDescription = bigPicture.querySelector('.social__caption');
 const bigPictureLikesCount = bigPicture.querySelector('.likes-count');
 const commentTemplate = document.querySelector('#comment');
 const commentItem = commentTemplate.content.querySelector('.social__comment');
-const commentsCount = bigPicture.querySelector('.social__comment-count');
+const socialCommentsCount = bigPicture.querySelector('.social__comment-count');
+const commentsCount = bigPicture.querySelector('.comments-count');
 const commentsLoaderButton = bigPicture.querySelector('.comments-loader');
 
 commentsLoaderButton.classList.add('hidden');
@@ -34,7 +35,8 @@ const onCloseBtnClick = (evt) => {
  * @param {number} commentArrayCount
  */
 const changeCommentsCounter = (currentCommentsCount, allCommentsCount) => {
-  commentsCount.textContent = `${currentCommentsCount} из ${allCommentsCount} комменратиев`;
+  commentsCount.textContent = allCommentsCount;
+  socialCommentsCount.innerHTML = `${currentCommentsCount} из <span class="comments-count">${allCommentsCount}</span> комментариев`;
 };
 
 /**
