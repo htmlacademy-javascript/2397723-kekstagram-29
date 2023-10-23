@@ -8,8 +8,6 @@ const filterButtonDiscussed = document.querySelector('#filter-discussed');
 
 const RANDOM_PICTURES_AMOUNT = 10;
 
-let slicePictures = [];
-
 /**
  * @param {object[]} pictures
  * @returns
@@ -66,7 +64,6 @@ const refreshPictures = debounce((newPictures) => {
 });
 
 const filterPicturesList = (pictures) => {
-  slicePictures = pictures.slice();
   if (pictures) {
     imgFiltersInactive.classList.remove('img-filters--inactive');
 
@@ -74,24 +71,24 @@ const filterPicturesList = (pictures) => {
       filterButtonDefault.classList.add('img-filters__button--active');
       filterButtonRandom.classList.remove('img-filters__button--active');
       filterButtonDiscussed.classList.remove('img-filters__button--active');
-      refreshPictures(slicePictures);
+      refreshPictures(pictures);
     });
 
     filterButtonRandom.addEventListener('click', () => {
       filterButtonRandom.classList.add('img-filters__button--active');
       filterButtonDefault.classList.remove('img-filters__button--active');
       filterButtonDiscussed.classList.remove('img-filters__button--active');
-      refreshPictures(slicePictures);
+      refreshPictures(pictures);
     });
 
     filterButtonDiscussed.addEventListener('click', () => {
       filterButtonDiscussed.classList.add('img-filters__button--active');
       filterButtonRandom.classList.remove('img-filters__button--active');
       filterButtonDefault.classList.remove('img-filters__button--active');
-      refreshPictures(slicePictures);
+      refreshPictures(pictures);
     });
   }
-  renderPictures(slicePictures);
+  renderPictures(pictures);
 };
 
 export { filterPicturesList };
