@@ -80,7 +80,7 @@ const resetEffectsForCloseModal = () => {
   imgUploadEffectLevel.classList.add(CLASS_HIDDEN);
 };
 
-const effects = () => {
+const applyEffects = () => {
   for (const item of effectItems) {
     item.addEventListener('change', () => {
       currentEffect = item.value;
@@ -110,4 +110,4 @@ const effects = () => {
   }
 };
 
-export { effects, resetEffectsForCloseModal };
+export { applyEffects, resetEffectsForCloseModal };

@@ -1,5 +1,5 @@
 import { isEscapeKey } from './utils.js';
-import { effects, resetEffectsForCloseModal } from './effects.js';
+import { applyEffects, resetEffectsForCloseModal } from './effects.js';
 import { resetScaleForCloseModal } from './scale.js';
 import { fillPreview } from './fill-preview.js';
 import { postPicture } from './api.js';
@@ -74,7 +74,7 @@ const initUploadFormSubmit = () => {
 };
 
 const initUploadForm = () => {
-  effects();
+  applyEffects();
 
   uploadInput.addEventListener('change', () => {
     showModal();
