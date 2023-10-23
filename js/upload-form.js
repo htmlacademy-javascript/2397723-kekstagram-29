@@ -48,11 +48,9 @@ function resetForm () {
   document.body.classList.remove(CLASS_MODAL_OPEN);
   unblockSubmitButton();
   pristine.reset();
-  uploadInput.value = '';
   resetEffectsForCloseModal();
   resetScaleForCloseModal();
-  textHashtag.value = '';
-  textDescription.value = '';
+  imgUploadForm.reset();
 }
 
 
