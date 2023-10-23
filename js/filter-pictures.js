@@ -2,9 +2,7 @@ import { renderPictures } from './pictures.js';
 import { getRandomInteger, debounce } from './utils.js';
 
 const imgFiltersInactive = document.querySelector('.img-filters');
-const filterButtonDefault = document.querySelector('#filter-default');
-const filterButtonRandom = document.querySelector('#filter-random');
-const filterButtonDiscussed = document.querySelector('#filter-discussed');
+const filtersButtons = document.querySelectorAll('.img-filters__button');
 
 const RANDOM_PICTURES_AMOUNT = 10;
 
@@ -67,25 +65,12 @@ const filterPicturesList = (pictures) => {
   if (pictures) {
     imgFiltersInactive.classList.remove('img-filters--inactive');
 
-    filterButtonDefault.addEventListener('click', () => {
-      filterButtonDefault.classList.add('img-filters__button--active');
-      filterButtonRandom.classList.remove('img-filters__button--active');
-      filterButtonDiscussed.classList.remove('img-filters__button--active');
-      refreshPictures(pictures);
-    });
-
-    filterButtonRandom.addEventListener('click', () => {
-      filterButtonRandom.classList.add('img-filters__button--active');
-      filterButtonDefault.classList.remove('img-filters__button--active');
-      filterButtonDiscussed.classList.remove('img-filters__button--active');
-      refreshPictures(pictures);
-    });
-
-    filterButtonDiscussed.addEventListener('click', () => {
-      filterButtonDiscussed.classList.add('img-filters__button--active');
-      filterButtonRandom.classList.remove('img-filters__button--active');
-      filterButtonDefault.classList.remove('img-filters__button--active');
-      refreshPictures(pictures);
+    filtersButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        filtersButtons.forEach((elem) => elem.classList.remove('img-filters__button--active'));
+        button.classList.add('img-filters__button--active');
+        refreshPictures(pictures);
+      });
     });
   }
   renderPictures(pictures);
