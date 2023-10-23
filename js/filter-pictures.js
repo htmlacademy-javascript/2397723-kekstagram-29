@@ -60,8 +60,8 @@ const filter = (pictures) => {
 };
 
 const refreshPictures = debounce((newPictures) => {
-  const picturesContainer = document.querySelectorAll('.picture');
-  picturesContainer.forEach((picture) => picture.remove());
+  const oldPictures = document.querySelectorAll('.picture');
+  oldPictures.forEach((picture) => picture.remove());
   filter(newPictures);
 });
 
