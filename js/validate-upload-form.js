@@ -26,7 +26,7 @@ const checkHashtag = (hashtag) => {
   const splitHashtags = lowerCaseHashtag.split(reSpaces);
   const reg = /^#[a-zа-яё0-9]{1,19}$/i;
   const isNormalLength = splitHashtags.length <= HASHTAGS_AMOUNT;
-  let noDublicates = true;
+  let noDuplicates = true;
   let regTest = true;
   for (const hashtagItem of splitHashtags) {
     if (!reg.test(hashtagItem)) {
@@ -34,10 +34,10 @@ const checkHashtag = (hashtag) => {
     }
     const dublicateHashtags = splitHashtags.filter((el) => el === hashtagItem);
     if (dublicateHashtags.length > 1) {
-      noDublicates = false;
+      noDuplicates = false;
     }
   }
-  return { isNormalLength, noDublicates, regTest };
+  return { isNormalLength, noDuplicates, regTest };
 };
 
 pristine.addValidator(textHashtag, (value) => {
@@ -55,7 +55,7 @@ pristine.addValidator(textHashtag, (value) => {
 
 pristine.addValidator(textHashtag, (value) => {
   const test = checkHashtag(value);
-  return test.noDublicates;
+  return test.noDuplicates;
 }, validationErrors.dublicate, 3, true);
 
 pristine.addValidator(textDescription, (value) => {
