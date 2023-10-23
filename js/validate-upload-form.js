@@ -3,6 +3,7 @@ const textDescription = document.querySelector('.text__description');
 const imgUploadForm = document.getElementById('upload-select-image');
 
 const HASHTAGS_AMOUNT = 5;
+const HASHTAG_REG = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const validationErrors = {
   pattern: 'Хэштег не соответствует шаблону',
@@ -24,12 +25,11 @@ const checkHashtag = (hashtag) => {
   const lowerCaseHashtag = hashtag.toLowerCase().trim();
   const reSpaces = /\s+/;
   const splitHashtags = lowerCaseHashtag.split(reSpaces);
-  const reg = /^#[a-zа-яё0-9]{1,19}$/i;
   const isNormalLength = splitHashtags.length <= HASHTAGS_AMOUNT;
   let noDuplicates = true;
   let regTest = true;
   for (const hashtagItem of splitHashtags) {
-    if (!reg.test(hashtagItem)) {
+    if (!HASHTAG_REG.test(hashtagItem)) {
       regTest = false;
     }
     const dublicateHashtags = splitHashtags.filter((el) => el === hashtagItem);
