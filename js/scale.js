@@ -15,22 +15,22 @@ function changeScale(scaleValue) {
 
 let currentScale = 1;
 
-const plusScale = () => {
+const onPlusScaleBtnClick = () => {
   if (currentScale < 1) {
     currentScale += SCALE_STEP;
     changeScale(currentScale);
   }
 };
 
-const minusScale = () => {
+const onMinusScaleBtnClick = () => {
   if (currentScale > 0.25) {
     currentScale -= SCALE_STEP;
     changeScale(currentScale);
   }
 };
 
-scaleControlBigger.addEventListener('click', plusScale);
-scaleControlSmaller.addEventListener('click', minusScale);
+scaleControlBigger.addEventListener('click', onPlusScaleBtnClick);
+scaleControlSmaller.addEventListener('click', onMinusScaleBtnClick);
 
 const resetScaleForCloseModal = () => {
   changeScale(1);
