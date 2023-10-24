@@ -4,7 +4,7 @@ import { resetScaleForCloseModal } from './scale.js';
 import { fillPreview } from './fill-preview.js';
 import { postPicture } from './api.js';
 import { pristine } from './validate-upload-form.js';
-import { blockSubmitButton, openUploadResultMessage } from './modal-notifications.js';
+import { submitBtnActivityToggle, openUploadResultMessage } from './modal-notifications.js';
 
 const imgUploadForm = document.getElementById('upload-select-image');
 const uploadInput = imgUploadForm.querySelector('.img-upload__input');
@@ -46,7 +46,7 @@ const showModal = () => {
 
 function resetForm () {
   document.body.classList.remove(CLASS_MODAL_OPEN);
-  blockSubmitButton(false);
+  submitBtnActivityToggle(false);
   pristine.reset();
   resetEffectsForCloseModal();
   resetScaleForCloseModal();
@@ -60,11 +60,11 @@ const initUploadFormSubmit = () => {
     const isValid = pristine.validate();
 
     if (isValid) {
-      blockSubmitButton(true);
+      submitBtnActivityToggle(true);
       postPicture({
         payload: new FormData(imgUploadForm),
         onSuccess: openUploadResultMessage('success'),
-        onFinally: () => blockSubmitButton(false),
+        onFinally: () => submitBtnActivityToggle(false),
         onError: openUploadResultMessage('error'),
       });
     }
