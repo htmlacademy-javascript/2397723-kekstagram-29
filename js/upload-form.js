@@ -1,10 +1,10 @@
 import { isEscapeKey } from './utils.js';
-import { effects, resetEffectsForCloseModal } from './effects.js';
+import { applyEffects, resetEffectsForCloseModal } from './effects.js';
 import { resetScaleForCloseModal } from './scale.js';
 import { fillPreview } from './fill-preview.js';
 import { postPicture } from './api.js';
 import { pristine } from './validate-upload-form.js';
-import { blockSubmitButton, unblockSubmitButton, openUploadResultMessage } from './modal-notifications.js';
+import { setBtnDisable, openUploadResultMessage } from './modal-notifications.js';
 
 const imgUploadForm = document.getElementById('upload-select-image');
 const uploadInput = imgUploadForm.querySelector('.img-upload__input');
@@ -46,13 +46,11 @@ const showModal = () => {
 
 function resetForm () {
   document.body.classList.remove(CLASS_MODAL_OPEN);
-  unblockSubmitButton();
+  setBtnDisable(false);
   pristine.reset();
-  uploadInput.value = '';
   resetEffectsForCloseModal();
   resetScaleForCloseModal();
-  textHashtag.value = '';
-  textDescription.value = '';
+  imgUploadForm.reset();
 }
 
 
@@ -62,11 +60,11 @@ const initUploadFormSubmit = () => {
     const isValid = pristine.validate();
 
     if (isValid) {
-      blockSubmitButton();
+      setBtnDisable(true);
       postPicture({
         payload: new FormData(imgUploadForm),
         onSuccess: openUploadResultMessage('success'),
-        onFinally: unblockSubmitButton,
+        onFinally: () => setBtnDisable(false),
         onError: openUploadResultMessage('error'),
       });
     }
@@ -74,7 +72,7 @@ const initUploadFormSubmit = () => {
 };
 
 const initUploadForm = () => {
-  effects();
+  applyEffects();
 
   uploadInput.addEventListener('change', () => {
     showModal();
