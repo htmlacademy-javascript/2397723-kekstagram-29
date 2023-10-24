@@ -13,8 +13,8 @@ const errorButton = errorMessage.querySelector('.error__button');
 /**
  * @param {boolean} status
  */
-const submitBtnActivityToggle = (status) => {
-  imgUploadSubmit.disabled = status;
+const setBtnDisable = (isDisable) => {
+  imgUploadSubmit.disabled = isDisable;
 };
 
 const onSuccessKeydown = (evt) => {
@@ -94,4 +94,4 @@ function closeError() {
   document.body.removeChild(errorMessage);
 }
 
-export { submitBtnActivityToggle, openUploadResultMessage };
+export { setBtnDisable, openUploadResultMessage };
